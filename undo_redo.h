@@ -1,30 +1,68 @@
 #include "game.h"
 #ifndef undo_redo_H
 #define undo_redo_H
-
-const int size = 4;
+#include <iostream>
 
 struct Node
 {
-    int matrix[size][size];
+    int a[size][size];
     Node* next;
+};
+
+struct Stack
+{
+    Node* top = nullptr; //Con trỏ đầu của stack;
+    //Lưu trạng thái hiện tại của ma trận
+    void push(int board[size][size]) {
+        Node* newNode = new Node;
+        for(int i = 0; i < size; ++i) {
+            for(int j = 0; j < size; ++j) {
+                newNode->a[i][j] = board[i][j];
+            }
+        }
+        newNode->next = top;
+        top = newNode;
+    }
+    //Lấy trạng thái đã lưu gần nhất của ma trận ra
+    bool pop(int board[size][size]) {
+        if(!top) {
+            std::cout << "Khong the undo!!!" << "\n";
+            return false;
+        }
+        for(int i = 0; i < size; ++i) {
+            for(int j = 0; j < size; ++j) {
+                board[i][j] = top->a[i][j];
+            }
+        }
+        Node* tmp = top;
+        top = top->next;
+        delete tmp;
+        return true;
+    }
+
+    bool empty() {
+        return top == nullptr;
+    }
+    //Xóa trạng thái dùng khi undo và thao tác hoặc ngược lại
+    void clear() {
+        if(!top) {
+            return;
+        }
+        while(top) {
+            Node* tmp = top;
+            delete tmp;
+            top = top->next;
+        }
+    }
 };
 
 class undo_redo{
     private:
         int board[size][size];
+        Stack undostack, redostack;
     public:
-        struct Stack 
-        {
-            void push(int board[size][size]);
-            bool pop(int board[size][size]);
-            bool empty();
-            void clear();
-        };
         void undo(int b[size][size]);
         void redo(int b[size][size]);
         void saveSate(int b[size][size]);
 };
-
-
 #endif
