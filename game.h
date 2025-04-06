@@ -3,20 +3,28 @@
 #define GAME_H
 
 const int size = 4;
-
 extern int matrix[size][size];
-extern bool check;
+extern long long score;
 
-    void moveleft(int row[size]);
-    void moveleftall();
-    void moveright(int col[size]);
-    void moverightall();
-    void moveup();
-    void movedown();
-    bool canMove();
-    bool isgameover();
-    void hand(bool& check);
-    void addNewTile();
-    bool isWinGame();
+class Game 
+{
+    private:
+        bool check;  
+        int data[size];
+        int front, rear;
+    public:
+        
+        long long moveleft(int row[size]);
+        void moveleftall();
+        void moveright(int col[size]);
+        void moverightall();
+        void moveup();
+        void movedown();
+        bool canMove();
+        bool isgameover();
+        void hand(bool& check);
+        void addNewTile();
+        bool isWinGame();
+};
 
 #endif 
