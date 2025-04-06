@@ -7,36 +7,70 @@ int matrix[size][size] = {0}; // Khởi tạo ma trận
 
 long long score = 0; //Biến dùng để lưu điểm số, mỗi lần gộp
 bool check = false; //Biến dùng để kiểm tra 2 phần
+Game game;
+
+struct MyQueue {
+    int data[size]; // dùng đúng kích thước hàng
+    int front, rear;
+
+    MyQueue() {
+        front = 0;
+        rear = 0;
+    }
+
+    bool empty() {
+        return front == rear;
+    }
+
+    void push(int x) {
+        if (rear < size) {
+            data[rear++] = x;
+        }
+    }
+
+    int pop() {
+        if (!empty()) {
+            return data[front++];
+        }
+        return -1; // lỗi nếu hàng đợi rỗng
+    }
+
+    int peek() {
+        if (!empty()) {
+            return data[front];
+        }
+        return -1;
+    }
+};
 
 //hàm xử lí di chuyển của 1 hàng sang trái
-void moveleft(int row[size]) {
-    std::queue<int> q;
+long long Game::moveleft(int row[size]) {
+    MyQueue q;
     for (int i = 0; i < size; i++)
-        if (row[i] != 0) q.push(row[i]); // Đưa các số vào hàng đợi (bỏ qua số 0)
+        if (row[i] != 0) q.push(row[i]);
 
     int index = 0;
     while (!q.empty()) {
-        int first = q.front(); q.pop();
-        if (!q.empty() && first == q.front()) { // Nếu có 2 số giống nhau liên tiếp
+        int first = q.pop();
+        if (!q.empty() && first == q.peek()) {
             first *= 2;
             score += first;
-            q.pop(); // Lấy số thứ 2 ra khỏi hàng đợi
+            q.pop();
         }
         row[index++] = first;
     }
-
-    while (index < size) row[index++] = 0; // Điền lại các số 0 vào cuối hàng
+    while (index < size) row[index++] = 0;
+    return score;
 }
 
-
 //hàm di chuyển của thao tác sang trái
-void moveleftall() {
+void Game::moveleftall() {
     for(int i = 0; i < size; ++i) {
         moveleft(matrix[i]);
     }
 }
 
-void moveright(int col[size] ) {
+void Game::moveright(int col[size] ) {
     int tmp[size] = {0};
     //Sao chép vào mảng để gộp 
     for(int i = 0; i < size; ++i) {
@@ -44,7 +78,7 @@ void moveright(int col[size] ) {
     }
     //Gộp ô
     std::reverse(tmp, tmp + size);
-    moveleft(tmp);
+    Game::moveleft(tmp);
     std::reverse(tmp, tmp + size);
     //Sao chép vào mảng gốc
     for(int i = 0; i < size; ++i) {
@@ -52,13 +86,13 @@ void moveright(int col[size] ) {
     }
 }
 
-void moverightall() {
+void Game::moverightall() {
     for(int i = 0; i < size; ++i) {
-        moveright(matrix[i]);
+        Game::moveright(matrix[i]);
     }
 }
 
-void moveup() {
+void Game::moveup() {
     //Sao chép cột di chuyển
     for(int i = 0; i < size; ++i) {
         int tmp[size] = {0}; 
@@ -67,7 +101,7 @@ void moveup() {
             tmp[j] = matrix[j][i];
         }
         //Gộp ô
-        moveleft(tmp);
+        Game::moveleft(tmp);
         //Cập nhật lại ma trận
         for(int j = 0; j < size; ++j) {
             matrix[j][i] = tmp[j];
@@ -75,7 +109,7 @@ void moveup() {
     }
 }
 
-void movedown() {
+void Game::movedown() {
     //Sao chép cột di chuyển
     for(int i = 0; i < size; ++i) {
         int tmp[size] = {0}; 
@@ -85,7 +119,7 @@ void movedown() {
         }
         //Gộp ô
         std::reverse(tmp, tmp + size);
-        moveleft(tmp);
+        Game::moveleft(tmp);
         std::reverse(tmp, tmp + size);
         //Cập nhật lại ma trận
         for(int j = 0; j < size; ++j) {
@@ -94,7 +128,7 @@ void movedown() {
     }
 }
 
-bool canMove() {
+bool Game::canMove() {
     //Kiểm tra xem còn ô trống để di chuyển không
     for(int i = 0; i < size; ++i) {
         for(int j = 0; j < size; ++j) {
@@ -123,11 +157,11 @@ bool canMove() {
     return false; //Không còn ô di chuyển được và cũng không còn ô có khả năng gộp được
 }
 
-bool isgameover() {
-    return !canMove(); //Nếu không còn khả năng di chuyển hay gộp nữa thì trò chơi kết thúc 
+bool Game::isgameover() {
+    return !Game::canMove(); //Nếu không còn khả năng di chuyển hay gộp nữa thì trò chơi kết thúc 
 }
 
-void hand(bool& check) {
+void Game::hand(bool& check) {
     char c;
     std::cout << "Nhap cach di chuyen theo huong dan duoi day: \n\n";
     std::cout << "Nhap W neu muon di chuyen len\n";
@@ -152,26 +186,26 @@ void hand(bool& check) {
         }
     }
     if(c == 'A') {
-        moveleftall();
+        game.moveleftall();
     } else if(c == 'D') {
-        moverightall();
+        game.moverightall();
     } else if(c == 'W') {
-        moveup();
+        game.moveup();
     } else if(c == 'S') {
-        movedown();
+        game.movedown();
     }
-    if(isgameover()) {
+    if(game.isgameover()) {
         std::cout << "\nGAME OVER\n";
-    } else if(isWinGame()){
+    } else if(game.isWinGame()){
         check = true;
         std::cout << "You Win!!!";
         return;
     } else {
-        addNewTile(); //Thêm ô mới sau mỗi lần di chuyển 
+        game.addNewTile(); //Thêm ô mới sau mỗi lần di chuyển 
     }
 }
 
-void addNewTile() {
+void Game::addNewTile() {
     int emptyCells[size * size][2];
     int count = 0;//Dùng để đánh dấu các ô trống
     for (int i = 0; i < size; i++) {
@@ -190,7 +224,7 @@ void addNewTile() {
     matrix[emptyCells[idx][0]][emptyCells[idx][1]] = (rand() % 10 == 0) ? 4 : 2;
 }
 
-bool isWinGame() {
+bool Game::isWinGame() {
     for(int i = 0; i < size; ++i) {
         for(int j = 0; j < size; ++j) {
             if(matrix[i][j] == 2048) {
