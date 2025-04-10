@@ -7,7 +7,7 @@
 
 struct Node
 {
-    int a[size][size];
+    int a[MAX][MAX];
     Node* next;
 };
 
@@ -15,7 +15,7 @@ struct Stack
 {
     Node* top = nullptr; //Con trỏ đầu của stack;
     //Lưu trạng thái hiện tại của ma trận
-    void push(int board[size][size]) {
+    void push(int board[MAX][MAX]) {
         Node* newNode = new Node;
         for(int i = 0; i < size; ++i) {
             for(int j = 0; j < size; ++j) {
@@ -26,7 +26,7 @@ struct Stack
         top = newNode;
     }
     //Lấy trạng thái đã lưu gần nhất của ma trận ra
-    bool pop(int board[size][size]) {
+    bool pop(int board[MAX][MAX]) {
         if(!top) {
             return false;
         }
@@ -61,8 +61,8 @@ class undo_redo{
     private:
         Stack undostack, redostack;
     public:
-        void undo(int b[size][size]);
-        void redo(int b[size][size]);
-        void saveState(int b[size][size]);
+        void undo(int b[MAX][MAX]);
+        void redo(int b[MAX][MAX]);
+        void saveState(int b[MAX][MAX]);
 };
 #endif
