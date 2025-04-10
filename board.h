@@ -3,6 +3,7 @@
 #define BOARD_H
 
 #include "game.h"
+#include "config.h"
 
 void board();
 
