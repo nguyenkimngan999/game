@@ -2,9 +2,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-const int size = 4;
+#include "undo_redo.h"
+#include "config.h"
+
 extern int matrix[size][size];
 extern long long score;
+
+class undo_redo;
 
 class Game 
 {
@@ -22,7 +26,7 @@ class Game
         void movedown();
         bool canMove();
         bool isgameover();
-        void hand(bool& check);
+        void hand(bool& check, undo_redo& ur);
         void addNewTile();
         bool isWinGame();
 };
