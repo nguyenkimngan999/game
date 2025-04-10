@@ -20,7 +20,7 @@ int main() {
     bool check = false;
     // Hiển thị bảng đầu tiên
     board();
-    // Vòng lặp chính của game (nếu chưa có)
+    // Vòng lặp chính của game
     while (!game.isgameover()) {
         game.hand(check, s);
         if(check == true) {
