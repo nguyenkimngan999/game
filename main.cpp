@@ -1,9 +1,11 @@
 #include "game.h"
 #include "board.h"
+#include "undo_redo.h"
+#include "config.h"
+
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-#include "undo_redo.h"
 
 int main() {
     std::srand(time(0));
@@ -18,25 +20,12 @@ int main() {
     board();
     // Vòng lặp chính của game (nếu chưa có)
     while (!game.isgameover()) {
-        game.hand(check);
+        game.hand(check, s);
         if(check == true) {
             break;
         }
         board(); // Cập nhật bảng sau mỗi lượt đi
         std::cout << "So diem ban da choi: " << score << std::endl;
-        std::cout << "Neu ban muon undo thi nhap 'U', con neu muon redo thi nhap 'R'\n";
-        std::cout << "Neu khong muon thi nhap 1: ";
-        char input;
-        std::cin >> input;
-        if(input == 'U') {
-            s.undo(matrix);
-            board();
-        } else if(input == 'R') {
-            s.redo(matrix);
-            board();
-        } else {
-            continue;
-        }
     }
 
     std::cout << "Thanks for playing.\n";
