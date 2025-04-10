@@ -5,7 +5,7 @@
 #include "undo_redo.h"
 #include "config.h"
 
-extern int matrix[size][size];
+extern int matrix[MAX][MAX];
 extern long long score;
 
 class undo_redo;
@@ -14,13 +14,13 @@ class Game
 {
     private:
         bool check;  
-        int data[size];
+        int data[MAX];
         int front, rear;
     public:
         
-        long long moveleft(int row[size]);
+        long long moveleft(int row[MAX]);
         void moveleftall();
-        void moveright(int col[size]);
+        void moveright(int col[MAX]);
         void moverightall();
         void moveup();
         void movedown();
