@@ -2,6 +2,6 @@
 #define config_h
 
 const int MAX = 100;
-extern int size;
+extern int sizet;
 
 #endif
