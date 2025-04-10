@@ -1,7 +1,9 @@
-#include "game.h"
 #ifndef undo_redo_H
 #define undo_redo_H
+
 #include <iostream>
+#include "game.h"
+#include "config.h"
 
 struct Node
 {
@@ -26,7 +28,6 @@ struct Stack
     //Lấy trạng thái đã lưu gần nhất của ma trận ra
     bool pop(int board[size][size]) {
         if(!top) {
-            std::cout << "Khong the undo!!!" << "\n";
             return false;
         }
         for(int i = 0; i < size; ++i) {
@@ -50,19 +51,18 @@ struct Stack
         }
         while(top) {
             Node* tmp = top;
-            delete tmp;
             top = top->next;
+            delete tmp;
         }
     }
 };
 
 class undo_redo{
     private:
-        int board[size][size];
         Stack undostack, redostack;
     public:
         void undo(int b[size][size]);
         void redo(int b[size][size]);
-        void saveSate(int b[size][size]);
+        void saveState(int b[size][size]);
 };
 #endif
