@@ -10,6 +10,8 @@
 int main() {
     std::srand(time(0));
     std::cout << "Welcome to 2048 Game!\n";
+    std::cout << "Vui long chon kich thuoc mang: ";
+    std::cin >> size;
     // Khởi tạo bàn cờ ban đầu
     Game game;
     undo_redo s;
