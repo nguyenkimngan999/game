@@ -1,7 +1,9 @@
 #include "game.h"
+#include "undo_redo.h"
+#include "config.h"
+
 #include <algorithm>
 #include <iostream>
-#include <queue>
 
 int matrix[size][size] = {0}; // Khởi tạo ma trận 
 
@@ -161,7 +163,7 @@ bool Game::isgameover() {
     return !Game::canMove(); //Nếu không còn khả năng di chuyển hay gộp nữa thì trò chơi kết thúc 
 }
 
-void Game::hand(bool& check) {
+void Game::hand(bool& check, undo_redo& ur) {
     char c;
     std::cout << "Nhap cach di chuyen theo huong dan duoi day: \n\n";
     std::cout << "Nhap W neu muon di chuyen len\n";
@@ -171,7 +173,7 @@ void Game::hand(bool& check) {
     std::cout << "\n";
     std::cin >> c;
     c = (char)std::toupper(c); //Biến đổi thanh in hoa nếu người dùng lỡ nhập kí tự thường
-    while(c != 'W' && c != 'S' && c != 'A' && c != 'D') {
+    while(c != 'W' && c != 'S' && c != 'A' && c != 'D' && c != 'U' && c != 'R') {
         std::cout << "Ban vua nhap ki tu khong hop le. De tiep tuc tro choi, hay nhap ki tu dung vơi huong dan\n";
         std::cout << "Con neu ban muon ket thuc tro choi thi vui long bam so 0\n";
         std::cin >> c;
@@ -185,13 +187,27 @@ void Game::hand(bool& check) {
             break;
         }
     }
-    if(c == 'A') {
+    std::cout << "Nhap U de undo, R de redo\n";
+    if (c == 'U') {
+        ur.undo(matrix);
+        return;
+    } else if (c == 'R') {
+        ur.redo(matrix);
+        return;
+    }
+    
+    // Trong Game::hand()
+    if (c == 'A') {
+        ur.saveState(matrix); // <- lưu trước khi thay đổi
         game.moveleftall();
-    } else if(c == 'D') {
+    } else if (c == 'D') {
+        ur.saveState(matrix);
         game.moverightall();
-    } else if(c == 'W') {
+    } else if (c == 'W') {
+        ur.saveState(matrix);
         game.moveup();
-    } else if(c == 'S') {
+    } else if (c == 'S') {
+        ur.saveState(matrix);
         game.movedown();
     }
     if(game.isgameover()) {
