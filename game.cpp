@@ -5,14 +5,14 @@
 #include <algorithm>
 #include <iostream>
 
-int matrix[size][size] = {0}; // Khởi tạo ma trận 
+int matrix[MAX][MAX] = {0}; // Khởi tạo ma trận 
 
 long long score = 0; //Biến dùng để lưu điểm số, mỗi lần gộp
 bool check = false; //Biến dùng để kiểm tra 2 phần
 Game game;
 
 struct MyQueue {
-    int data[size]; // dùng đúng kích thước hàng
+    int data[MAX]; // dùng đúng kích thước hàng
     int front, rear;
 
     MyQueue() {
@@ -46,7 +46,7 @@ struct MyQueue {
 };
 
 //hàm xử lí di chuyển của 1 hàng sang trái
-long long Game::moveleft(int row[size]) {
+long long Game::moveleft(int row[MAX]) {
     MyQueue q;
     for (int i = 0; i < size; i++)
         if (row[i] != 0) q.push(row[i]);
@@ -72,7 +72,7 @@ void Game::moveleftall() {
     }
 }
 
-void Game::moveright(int col[size] ) {
+void Game::moveright(int col[MAX] ) {
     int tmp[size] = {0};
     //Sao chép vào mảng để gộp 
     for(int i = 0; i < size; ++i) {
