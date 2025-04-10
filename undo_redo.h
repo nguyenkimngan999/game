@@ -17,8 +17,8 @@ struct Stack
     //Lưu trạng thái hiện tại của ma trận
     void push(int board[MAX][MAX]) {
         Node* newNode = new Node;
-        for(int i = 0; i < size; ++i) {
-            for(int j = 0; j < size; ++j) {
+        for(int i = 0; i < sizet; ++i) {
+            for(int j = 0; j < sizet; ++j) {
                 newNode->a[i][j] = board[i][j];
             }
         }
@@ -30,8 +30,8 @@ struct Stack
         if(!top) {
             return false;
         }
-        for(int i = 0; i < size; ++i) {
-            for(int j = 0; j < size; ++j) {
+        for(int i = 0; i < sizet; ++i) {
+            for(int j = 0; j < sizet; ++j) {
                 board[i][j] = top->a[i][j];
             }
         }
