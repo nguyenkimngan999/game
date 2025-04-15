@@ -3,7 +3,10 @@
 #include "config.h"
 #include <iostream>
 
-void undo_redo::undo(int b[MAX][MAX]) {
+Stack undostack;
+Stack redostack;
+
+void undo(int b[MAX][MAX]) {
     if(undostack.empty()) {
         std::cout << "Khong the undo!\n";
     }
@@ -11,7 +14,7 @@ void undo_redo::undo(int b[MAX][MAX]) {
     undostack.pop(b);
 }
 
-void undo_redo::redo(int b[MAX][MAX]) {
+void redo(int b[MAX][MAX]) {
     if(redostack.empty()) {
         std::cout << "Khong the redo!\n";
     }
@@ -20,7 +23,7 @@ void undo_redo::redo(int b[MAX][MAX]) {
 }
 
 //Lưu trạng thái trước khi di chuyển
-void undo_redo::saveState(int b[MAX][MAX]) {
+void saveState(int b[MAX][MAX]) {
     undostack.push(b);
     redostack.clear();
 }
