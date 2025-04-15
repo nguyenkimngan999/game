@@ -1,37 +1,37 @@
-#ifndef undo_redo_H
-#define undo_redo_H
+#ifndef UNDO_REDO_H
+#define UNDO_REDO_H
 
 #include <iostream>
-#include "game.h"
 #include "config.h"
 
-struct Node
-{
+// Node lưu trạng thái ma trận
+struct Node {
     int a[MAX][MAX];
     Node* next;
 };
 
-struct Stack
-{
-    Node* top = nullptr; //Con trỏ đầu của stack;
-    //Lưu trạng thái hiện tại của ma trận
+// Stack quản lý các trạng thái
+struct Stack {
+    Node* top = nullptr;
+
+    // Lưu trạng thái hiện tại của ma trận
     void push(int board[MAX][MAX]) {
         Node* newNode = new Node;
-        for(int i = 0; i < sizet; ++i) {
-            for(int j = 0; j < sizet; ++j) {
+        for (int i = 0; i < sizet; ++i) {
+            for (int j = 0; j < sizet; ++j) {
                 newNode->a[i][j] = board[i][j];
             }
         }
         newNode->next = top;
         top = newNode;
     }
-    //Lấy trạng thái đã lưu gần nhất của ma trận ra
+
+    // Lấy trạng thái gần nhất ra khỏi stack
     bool pop(int board[MAX][MAX]) {
-        if(!top) {
-            return false;
-        }
-        for(int i = 0; i < sizet; ++i) {
-            for(int j = 0; j < sizet; ++j) {
+        if (!top) return false;
+
+        for (int i = 0; i < sizet; ++i) {
+            for (int j = 0; j < sizet; ++j) {
                 board[i][j] = top->a[i][j];
             }
         }
@@ -44,12 +44,10 @@ struct Stack
     bool empty() {
         return top == nullptr;
     }
-    //Xóa trạng thái dùng khi undo và thao tác hoặc ngược lại
+
+    // Xóa toàn bộ stack
     void clear() {
-        if(!top) {
-            return;
-        }
-        while(top) {
+        while (top) {
             Node* tmp = top;
             top = top->next;
             delete tmp;
@@ -57,12 +55,13 @@ struct Stack
     }
 };
 
-class undo_redo{
-    private:
-        Stack undostack, redostack;
-    public:
-        void undo(int b[MAX][MAX]);
-        void redo(int b[MAX][MAX]);
-        void saveState(int b[MAX][MAX]);
-};
+// Hai ngăn xếp toàn cục dùng cho undo và redo
+extern Stack undostack;
+extern Stack redostack;
+
+// Hàm thao tác undo và redo
+void saveState(int b[MAX][MAX]);
+void undo(int b[MAX][MAX]);
+void redo(int b[MAX][MAX]);
+
 #endif
