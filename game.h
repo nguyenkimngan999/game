@@ -1,34 +1,33 @@
-//Xử lý logic game
 #ifndef GAME_H
 #define GAME_H
 
 #include "undo_redo.h"
 #include "config.h"
 
+// Biến toàn cục
 extern int matrix[MAX][MAX];
 extern long long score;
 
-class undo_redo;
+// Biến liên quan đến xử lý hàng đợi hoặc hiệu ứng
+extern bool check;
+extern int data[MAX];
+extern int front, rear;
 
-class Game 
-{
-    private:
-        bool check;  
-        int data[MAX];
-        int front, rear;
-    public:
-        
-        long long moveleft(int row[MAX]);
-        void moveleftall();
-        void moveright(int col[MAX]);
-        void moverightall();
-        void moveup();
-        void movedown();
-        bool canMove();
-        bool isgameover();
-        void hand(bool& check, undo_redo& ur);
-        void addNewTile();
-        bool isWinGame();
-};
+// Di chuyển
+long long moveleft(int row[MAX]);
+void moveleftall();
+void moveright(int row[MAX]);
+void moverightall();
+void moveup();
+void movedown();
 
-#endif 
+// Trạng thái trò chơi
+bool canMove();
+bool isgameover();
+bool isWinGame();
+
+// Hành động
+void hand(bool& check, Stack& ur);
+void addNewTile();
+
+#endif
