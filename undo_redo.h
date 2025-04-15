@@ -59,7 +59,7 @@ struct Stack {
 extern Stack undostack;
 extern Stack redostack;
 
-// Hàm thao tác undo và redo
+// Hàm thao tác undo/redo
 void saveState(int b[MAX][MAX]);
 void undo(int b[MAX][MAX]);
 void redo(int b[MAX][MAX]);
