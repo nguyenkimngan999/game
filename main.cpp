@@ -13,16 +13,14 @@ int main() {
     std::cout << "Vui long chon kich thuoc mang: ";
     std::cin >> sizet;
     // Khởi tạo bàn cờ ban đầu
-    Game game;
-    undo_redo s;
-    game.addNewTile();
-    game.addNewTile();
-    bool check = false;
+    addNewTile();
+    addNewTile();
+    // check = false;
     // Hiển thị bảng đầu tiên
     board();
     // Vòng lặp chính của game
-    while (!game.isgameover()) {
-        game.hand(check, s);
+    while (!isgameover()) {
+        hand(check);
         if(check == true) {
             break;
         }
