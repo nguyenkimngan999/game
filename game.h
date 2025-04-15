@@ -27,7 +27,7 @@ bool isgameover();
 bool isWinGame();
 
 // Hành động
-void hand(bool& check, Stack& ur);
+void hand(bool& check);
 void addNewTile();
 
 #endif
