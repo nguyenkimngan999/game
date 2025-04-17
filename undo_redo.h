@@ -63,8 +63,8 @@ extern Stack undostack;
 extern Stack redostack;
 
 // Hàm thao tác undo/redo
-void saveState(int b[MAX][MAX], long long score);
-void undo(int b[MAX][MAX], long long& score);
-void redo(int b[MAX][MAX], long long& score);
+void saveState(int b[][MAX], long long score);
+void undo(int b[][MAX], long long& score);
+void redo(int b[][MAX], long long& score);
 
 #endif
