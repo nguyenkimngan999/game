@@ -7,6 +7,7 @@
 // Node lưu trạng thái ma trận
 struct Node {
     int a[MAX][MAX];
+    long long score;
     Node* next;
 };
 
@@ -15,19 +16,20 @@ struct Stack {
     Node* top = nullptr;
 
     // Lưu trạng thái hiện tại của ma trận
-    void push(int board[MAX][MAX]) {
+    void push(int board[MAX][MAX], long long current_score) {
         Node* newNode = new Node;
         for (int i = 0; i < sizet; ++i) {
             for (int j = 0; j < sizet; ++j) {
                 newNode->a[i][j] = board[i][j];
             }
         }
+        newNode->score = current_score;
         newNode->next = top;
         top = newNode;
     }
 
     // Lấy trạng thái gần nhất ra khỏi stack
-    bool pop(int board[MAX][MAX]) {
+    bool pop(int board[MAX][MAX], long long& current_score) {
         if (!top) return false;
 
         for (int i = 0; i < sizet; ++i) {
@@ -36,6 +38,7 @@ struct Stack {
             }
         }
         Node* tmp = top;
+        current_score = tmp->score;
         top = top->next;
         delete tmp;
         return true;
@@ -60,8 +63,8 @@ extern Stack undostack;
 extern Stack redostack;
 
 // Hàm thao tác undo/redo
-void saveState(int b[MAX][MAX]);
-void undo(int b[MAX][MAX]);
-void redo(int b[MAX][MAX]);
+void saveState(int b[MAX][MAX], long long score);
+void undo(int b[MAX][MAX], long long& score);
+void redo(int b[MAX][MAX], long long& score);
 
 #endif
