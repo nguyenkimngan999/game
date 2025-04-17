@@ -163,7 +163,7 @@ bool isgameover() {
     return !canMove(); //Nếu không còn khả năng di chuyển hay gộp nữa thì trò chơi kết thúc 
 }
 
-void hand(bool& check) {
+void hand(bool& check, long long& score) {
     char c;
     std::cout << "Nhap cach di chuyen theo huong dan duoi day: \n\n";
     std::cout << "Nhap W neu muon di chuyen len\n";
@@ -189,25 +189,25 @@ void hand(bool& check) {
     }
     std::cout << "Nhap U de undo, R de redo\n";
     if (c == 'U') {
-        undo(matrix);
+        undo(matrix, score);
         return;
     } else if (c == 'R') {
-        redo(matrix);
+        redo(matrix, score);
         return;
     }
     
     // Trong Game::hand()
     if (c == 'A') {
-        saveState(matrix); // <- lưu trước khi thay đổi
+        saveState(matrix, score); // <- lưu trước khi thay đổi
         moveleftall();
     } else if (c == 'D') {
-        saveState(matrix);
+        saveState(matrix, score);
         moverightall();
     } else if (c == 'W') {
-        saveState(matrix);
+        saveState(matrix, score);
         moveup();
     } else if (c == 'S') {
-        saveState(matrix);
+        saveState(matrix, score);
         movedown();
     }
     if(isgameover()) {
