@@ -6,7 +6,7 @@
 Stack undostack;
 Stack redostack;
 
-void undo(int b[MAX][MAX], long long& score) {
+void undo(int b[][MAX], long long& score) {
     if(undostack.empty()) {
         std::cout << "Khong the undo!\n";
     }
@@ -14,7 +14,7 @@ void undo(int b[MAX][MAX], long long& score) {
     undostack.pop(b, score);
 }
 
-void redo(int b[MAX][MAX], long long& score) {
+void redo(int b[][MAX], long long& score) {
     if(redostack.empty()) {
         std::cout << "Khong the redo!\n";
     }
@@ -23,7 +23,7 @@ void redo(int b[MAX][MAX], long long& score) {
 }
 
 //Lưu trạng thái trước khi di chuyển
-void saveState(int b[MAX][MAX], long long score) {
+void saveState(int b[][MAX], long long score) {
     undostack.push(b, score);
     redostack.clear();
 }
